@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  build-test-and-package:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,3 +25,15 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+      - name: Create build artifact
+        run: |
+          mkdir -p dist
+          cp server.js dist/server.js
+          cp package.json dist/package.json
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-build
+          path: dist/
